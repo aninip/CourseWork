@@ -1,0 +1,125 @@
+ <!DOCTYPE html>
+    <html lang="en">
+
+    <nav id="menu" class="navbar navbar-expand-lg fixed-top ">
+            <a class="navbar-brand" href="/naturetrail">Home</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+        </nav>
+
+
+    <head>
+        <meta charset="UTF-8">
+         {% load static %}
+        <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" type="text/css">
+        <link rel="stylesheet" type="text/css" href="/static/css/main.css">
+
+    </head>
+    <header class="header">
+        <div class="overlay"></div>
+            <div class="container">
+                <div class="description text-center">
+                      <h3>
+                        <p>
+                           Национальный парк
+                       </p>
+                       ТАГАНАЙ
+                   </font></h3>
+                       <div class="preview2">
+                        Генератор маршрута
+                       </div>
+                        <!--<button class="btn btn-outline-secondary" href="#about">Узнать больше
+                       </button>
+                       -->
+                </div>
+            </div>
+
+    </header>
+
+
+
+{% block content %}
+   <div class="generator" id="generator">
+      <h1 class="title text-center">Введите параметры похода</h1>
+      <form method="post">
+          {% csrf_token %}
+          <h6>Варианты : Лёгкий, Средний, Сложный, Выживание</h6>
+         {{ form.level_of_hardness }}<br>
+          <h6>Варианты : от 1 до 4</h6>
+         {{ form.duration }}<br>
+          <span>{{ error }}</span>
+
+     <!---    <input type="difficult" placeholder="Cложность" class="form-control"><br>
+         <input type="difficult" placeholder="Количество дней" class="form-control"><br>
+         <input type="difficult" placeholder="Тип проживания" class="form-control"><br>--->
+         <button class="btn btn-success btn-lg" type="submit" >Сгенерировать маршрут</button>
+      </form>
+   </div>
+{% endblock %}
+
+
+        <!-- Posts section -->
+    <div class="gener" id="gener">
+        <div class="container">
+            <h1 class="text-center">Ваш маршрут</h1>
+                <div class="row">
+                    <div class="one">
+                        <div class="card">
+                            <div class="card-img2">
+                                <!---<img src="/images/stone_river.jpg" class="">--->
+                                <img src="/static/{{ picture_h }}" class="">
+                            </div>
+                            <!---<h5>{{ picture_h }}</h5>--->
+                            <div class="card-body">
+                            <h4 class="card-title">{{name_h}}</h4>
+                                <p class="card1-text">
+                                    Сложность: {{ dificult_h }}
+                                </p>
+                                <p class="card1-text">
+                                    Продолжительность: {{ duration_h }}
+                                </p>
+                                <p class="card-text4">
+                                    {{ description_h }}
+                                </p>
+                                <p class="card1-text">
+                                    Источники воды: {{ water_h }}
+                                </p>
+                            </div>
+                            <!---<div class="card-footer">
+                                <a href="" class="card-link">Узнать больше</a>
+                            </div>--->
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+    </div>
+
+
+
+
+
+    <body>
+
+        <div class="jumbotron">
+          <div class="container">
+
+
+
+            <p>
+              <!---<a href="/" class="btn btn-success btn-lg" href="#">Главная страница</a>
+              <a href="/news" class="btn btn-primary btn-lg">Узнать больше &raquo;</a>--->
+            </p>
+          </div>
+        </div>
+        <div class="container">
+
+            <!--<img src="{% static 'img/taganay_main_fon.jpg' %}" class="img-thumbnail"> --->
+          <hr>
+          &copy; Все права защищены 2023
+        </div>
+            <script type="text/javascript" src='/static/js/main.js'></script>
+    </body>
+    </html>
