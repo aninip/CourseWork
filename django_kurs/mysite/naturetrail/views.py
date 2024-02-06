@@ -58,7 +58,7 @@ def create(request):
             generated_form.picture = pic
             generated_form.equipment = equip
             generated_form.save()
-
+            #;jgf
         else:
             print(form.errors.as_data())
             error ='Данные не корректны'
