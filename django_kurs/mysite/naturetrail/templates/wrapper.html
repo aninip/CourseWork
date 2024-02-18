@@ -1,197 +1,197 @@
-     <!DOCTYPE html>
-    <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-         {% load static %}
-        <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" type="text/css">
-        <link rel="stylesheet" type="text/css" href="/static/css/main.css">
-
-        <nav id="menu" class="navbar navbar-expand-lg fixed-top ">
-            <a class="navbar-brand" href="/naturetrail">Home</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse " id="navbarSupportedContent">
-                <ul class="navbar-nav mr-4">
-                    <li class="nav-item">
-                        <a class="nav-link" data-value="about" href="#about">О парке</a>
-                    </li>
-                    <li class="nav-item">
-                         <a class="nav-link " href="#blog">Маршруты</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link"  href="#generator">Конструктор похода</a>
-                    </li>
-
-                    <li class="nav-item">
-                         <a class="nav-link " href="#contact">Контакты</a>
-                    </li>
-                </ul>
-            </div>
-        </nav>
-    </head>
-    <header class="header">
-        <div class="overlay"></div>
-            <div class="container">
-                <div class="description text-center">
-                   <h3>
-                     <p>
-                        Национальный парк
-                    </p>
-                    ТАГАНАЙ
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    {% load static %}
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet"
+          type="text/css">
+    <link href="/static/css/main.css" rel="stylesheet" type="text/css">
+    <link href="{% static 'images/TaganayIcon.jpg' %}" rel="shortcut icon"
+          type="image/jpg"/>
+    <nav class="navbar navbar-expand-lg fixed-top " id="menu">
+        <a class="navbar-brand" href="/">Home</a>
+        <button aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation"
+                class="navbar-toggler"
+                data-target="#navbarSupportedContent" data-toggle="collapse"
+                type="button">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse " id="navbarSupportedContent">
+            <ul class="navbar-nav mr-4">
+                <li class="nav-item">
+                    <a class="nav-link" data-value="about" href="#about">О
+                        парке</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link " href="#blog">Маршруты</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#generator">Конструктор
+                        похода</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link " href="#contact">Контакты</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</head>
+<header class="header">
+    <div class="overlay"></div>
+    <div class="container">
+        <div class="description text-center">
+            <h3>
+                <p>Национальный парк</p>
+                ТАГАНАЙ
                 </font></h3>
-                    <div class="preview">
-                    На нашем сайте вы сможете ознакомиться с предлагаемыми маршрутами, изучить информацию о национальном парке, узнать о его уникальной флоре и фауне. Мы также предоставляем детальные карты маршрутов, списки необходимого снаряжения и другую полезную информацию, чтобы помочь вам спланировать ваше приключение в "Таганае".
-                    </div>
-                     <!--<button class="btn btn-outline-secondary" href="#about">Узнать больше
-                    </button>
-                    -->
+            <div class="preview">
+                На нашем сайте вы сможете ознакомиться с предлагаемыми
+                маршрутами, изучить информацию о национальном парке, узнать о
+                его уникальной флоре и фауне. Мы также предоставляем детальные
+                карты маршрутов, списки необходимого снаряжения и другую
+                полезную информацию, чтобы помочь вам спланировать ваше
+                приключение в "Таганае".
+            </div>
+        </div>
+    </div>
+</header>
+<div class="about" id="about">
+    <div class="container">
+        <h1 class="text-center">O парке</h1>
+        <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-12">
+                <img class="img-fluid" src="/static/img/1.jpg">
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-12 desc">
+                <h5>
+                    Национальный парк "Таганай" расположен в прекрасной
+                    природной зоне Уральских гор, и он приглашает вас на
+                    удивительное путешествие в мир дикой природы и неповторимой
+                    красоты.
+                </h5>
+                <h5>
+                    Здесь вы сможете окунуться в атмосферу горных вершин,
+                    живописных водопадов и густых лесов. "Таганай" предлагает
+                    богатый выбор пеших маршрутов различной сложности, где
+                    каждый найдет что-то по своему вкусу. Независимо от того,
+                    являетесь ли вы опытным альпинистом или просто любителем
+                    активного отдыха, здесь найдется что-то, чтобы
+                    удовлетворить ваши желания.
+                </h5>
+                <h5>
+                    Не упустите возможность окунуться в природную гармонию,
+                    насладиться красотой уральских ландшафтов и зарядиться
+                    энергией дикой природы. Приготовьтесь к незабываемым
+                    впечатлениям и приключениям в национальном парке "Таганай"!
 
+                </h5>
+
+            </div>
+        </div>
+    </div>
+</div>
+<div class="blog" id="blog">
+    <div class="container">
+        <h1 class="text-center">Популярные маршруты</h1>
+        <div class="row">
+            <div class="col-md-4 col-lg-4 col-sm-12">
+                <div class="card">
+                    <div class="card-img">
+                        <img class="img-fluid"
+                             src="/static/img/black_skale.jpg">
+                    </div>
+                    <div class="card-body">
+                        <h4 class="card-title">Прогулка до Чёрной скалы</h4>
+                        <p class="card1-text">
+                            Сложность: Лёгкий
+                        </p>
+                        <p class="card-text">
+                            Продолжительность : 1 день
+                        </p>
+                    </div>
+                    <!---<div class="card-footer">
+                        <a href="" class="card-link">Узнать больше</a>
+                    </div>--->
+                </div>
+            </div>
+            <div class="col-md-4 col-lg-4 col-sm-12">
+                <div class="card">
+                    <div class="card-img">
+                        <img class="img-fluid" src="/static/img/2_head.jpg">
+                    </div>
+
+                    <div class="card-body">
+                        <h4 class="card-title">Прогулка до Двуглавой сопки</h4>
+                        <p class="card1-text">
+                            Сложность: Лёгкий
+                        </p>
+                        <p class="card-text">
+                            Продолжительность : 1 день
+                        </p>
+                    </div>
+                    <!---<div class="card-footer">
+                        <a href="" class="card-link">Узнать больше</a>
+                    </div>--->
                 </div>
             </div>
 
+            <div class="col-md-4 col-lg-4 col-sm-12">
+                <div class="card">
+                    <div class="card-img">
+                        <img class="img-fluid" src="/static/img/meteo.jpg">
+                    </div>
 
-
-    </header>
-
-        <!-- about section -->
-    <div class="about" id="about">
-        <div class="container">
-          <h1 class="text-center">O парке</h1>
-            <div class="row">
-                <div class="col-lg-4 col-md-4 col-sm-12">
-                    <img src="/static/img/1.jpg" class="img-fluid">
-
-                </div>
-                <div class="col-lg-8 col-md-8 col-sm-12 desc">
-
-
-                    <h5>
-                    Национальный парк "Таганай" расположен в прекрасной природной зоне Уральских гор, и он приглашает вас на удивительное путешествие в мир дикой природы и неповторимой красоты.
-                    </h5>
-                    <h5>
-                    Здесь вы сможете окунуться в атмосферу горных вершин, живописных водопадов и густых лесов. "Таганай" предлагает богатый выбор пеших маршрутов различной сложности, где каждый найдет что-то по своему вкусу. Независимо от того, являетесь ли вы опытным альпинистом или просто любителем активного отдыха, здесь найдется что-то, чтобы удовлетворить ваши желания.
-                    </h5>
-                    <h5>
-                    Не упустите возможность окунуться в природную гармонию, насладиться красотой уральских ландшафтов и зарядиться энергией дикой природы. Приготовьтесь к незабываемым впечатлениям и приключениям в национальном парке "Таганай"!
-
-                    </h5>
-
+                    <div class="card-body">
+                        <h4 class="card-title">Дальний Таганай</h4>
+                        <p class="card1-text">
+                            Сложность: Сложный
+                        </p>
+                        <p class="card-text">
+                            Продолжительность : 3 дня
+                        </p>
+                    </div>
+                    <!---<div class="card-footer">
+                        <a href="" class="card-link">Узнать больше</a>
+                    </div>--->
                 </div>
             </div>
         </div>
     </div>
-
-
-
-
-        <!-- Posts section -->
-    <div class="blog" id="blog">
-        <div class="container">
-            <h1 class="text-center">Готовые маршруты</h1>
-                <div class="row">
-                    <div class="col-md-4 col-lg-4 col-sm-12">
-                        <div class="card">
-                            <div class="card-img">
-                                <img src="/static/img/black_skale.jpg" class="img-fluid">
-                            </div>
-
-                            <div class="card-body">
-                            <h4 class="card-title">Прогулка до Чёрной скалы</h4>
-                                <p class="card1-text">
-                                    Сложность: Лёгкий
-                                </p>
-                                <p class="card-text">
-                                    Продолжительность : 1 день
-                                </p>
-                            </div>
-                            <!---<div class="card-footer">
-                                <a href="" class="card-link">Узнать больше</a>
-                            </div>--->
-                        </div>
-                    </div>
-                    <div class="col-md-4 col-lg-4 col-sm-12">
-                        <div class="card">
-                            <div class="card-img">
-                                <img src="/static/img/2_head.jpg" class="img-fluid">
-                            </div>
-
-                            <div class="card-body">
-                               <h4 class="card-title">Прогулка до Двуглавой сопки</h4>
-                                <p class="card1-text">
-                                    Сложность: Лёгкий
-                                </p>
-                                <p class="card-text">
-                                    Продолжительность : 1 день
-                                </p>
-                            </div>
-                            <!---<div class="card-footer">
-                                <a href="" class="card-link">Узнать больше</a>
-                            </div>--->
-                        </div>
-                    </div>
-
-                    <div class="col-md-4 col-lg-4 col-sm-12">
-                        <div class="card">
-                            <div class="card-img">
-                                <img src="/static/img/meteo.jpg" class="img-fluid">
-                            </div>
-
-                            <div class="card-body">
-                            <h4 class="card-title">Дальний Таганай</h4>
-                                <p class="card1-text">
-                                    Сложность: Сложный
-                                </p>
-                                <p class="card-text">
-                                    Продолжительность : 3 дня
-                                </p>
-                            </div>
-                            <!---<div class="card-footer">
-                                <a href="" class="card-link">Узнать больше</a>
-                            </div>--->
-                        </div>
-                    </div>
-                </div>
-            </div>
-        <div class="generator" id="generator">
-            <h2 class="text-center">Конструктор похода</h2>
-        </div>
+    <div class="generator" id="generator">
+        <h2 class="text-center">Конструктор похода</h2>
     </div>
+</div>
+<body>
+<div class="jumbotron">
+    <div class="container">
 
+        {% block content %}
+        {% endblock %}
 
-
-
-
-
-
-    <body>
-
-        <div class="jumbotron">
-          <div class="container">
-
-              {% block content %}
-              {% endblock %}
-
-            <p2>
-              <!---<a href="/" class="btn btn-success btn-lg" href="#">Главная страница</a>--->
-                <div class="otstup">
-                    <div class="text-center">
-                        <a href="/naturetrail/generate" class="btn btn-primary btn-lg">Создать свой поход &raquo;</a>
-                    </div>
+        <p2>
+            <!---<a href="/" class="btn btn-success btn-lg" href="#">Главная страница</a>--->
+            <div class="otstup">
+                <div class="text-center">
+                    <a class="btn btn-primary btn-lg"
+                       href="/generate">Создать свой поход
+                        &raquo;</a>
                 </div>
-            </p2>
-          </div>
-        </div>
-        <div class="contact" id="contact">
-            <div class="container">
-
-                <!--<img src="{% static 'img/taganay_main_fon.jpg' %}" class="img-thumbnail"> --->
-              <hr>
-              &copy; Все права защищены 2023
-                <a href="https://taganay.org/" class="btn btn-secondary" role="button">Оффициальный сайт "Таганая"</a>
-                <a href="https://sp.susu.ru/" class="btn btn-secondary" role="button">Оффициальный сайт кафедры СП</a>
             </div>
-        </div>
-            <script type="text/javascript" src='/static/js/main.js'></script>
-    </body>
-    </html>
+        </p2>
+    </div>
+</div>
+<div class="contact" id="contact">
+    <div class="container">
+        <!--<img src="{% static 'img/taganay_main_fon.jpg' %}" class="img-thumbnail"> --->
+        <hr>
+        &copy; Все права защищены 2023
+        <a class="btn btn-secondary" href="https://taganay.org/" role="button">Официальный
+            сайт "Таганая"</a>
+        <a class="btn btn-secondary" href="https://sp.susu.ru/" role="button">Официальный
+            сайт кафедры СП</a>
+    </div>
+</div>
+<script src='/static/js/main.js' type="text/javascript"></script>
+</body>
+</html>

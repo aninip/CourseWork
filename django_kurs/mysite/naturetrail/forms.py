@@ -1,5 +1,5 @@
 from .models import Routes
-from django.forms import ModelForm,TextInput
+from django.forms import ModelForm, TextInput
 
 
 class RoutesForm(ModelForm):

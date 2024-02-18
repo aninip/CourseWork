@@ -21,5 +21,5 @@ from django.urls import path, include
 
 urlpatterns = [
 
-    path(r'naturetrail/', include('naturetrail.urls')),
+    path(r'', include('naturetrail.urls')),
 ]
