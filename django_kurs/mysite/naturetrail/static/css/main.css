@@ -178,7 +178,10 @@ padding: 20px 140px 40px 140px;
 }
 .card-text4{
 font-size:18;
-
+}
+.card-body  {
+    text-decoration: none;
+    color: black;
 }
 p2{
 text-aligin: center;
@@ -187,10 +190,15 @@ text-aligin: center;
     margin: 30px 0px 60px;
 	color:#06602c;
 }
-
 .contact{
 margin: 0px 0px 5px;
 }
 .otstup{
 margin: 0px 0px 100px;
+}
+.card a {
+    text-decoration: none;
+}
+.card a:hover {
+    background-color: lightgray; /* Изменение цвета фона при наведении */
 }
