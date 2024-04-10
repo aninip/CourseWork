@@ -44,8 +44,16 @@ background-color:#343a40!important
 }
 .overlay{
  position: absolute;
- min-height: 100%;
- min-width: 850%;
+ min-height: 90%;
+ min-width: 100%;
+ left: 0;
+ top: 0;
+ background: rgba(244, 244, 244, 0.79);
+}
+.overlay_route_detail{
+ position: absolute;
+ height: 85%;
+ min-width: 100%;
  left: 0;
  top: 0;
  background: rgba(244, 244, 244, 0.79);
