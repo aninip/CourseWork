@@ -1,7 +1,7 @@
 import random as rand
 from datetime import time, datetime
 from django.shortcuts import render
-from .forms import RoutesForm
+from naturetrail.forms import RoutesForm
 from .models import Routes
 
 
@@ -11,14 +11,12 @@ def index(request):
 
 def create(request):
     error = ""
-
     if request.method == 'POST':
         handle_post_request(request.POST)
-
     nash = Routes.objects.last()
     form = RoutesForm()
     data = prepare_data(nash, form, error)
-    return render(request, 'includes/some_html.html', data)
+    return render(request, 'route_detail.html', data)
 
 
 def handle_post_request(post_data):
@@ -74,7 +72,18 @@ def prepare_data(nash, form, error):
 def route_detail(request, route_id):
     try:
         route = Routes.objects.get(pk=route_id)
+        data = prepare_data_for_ready_route(route)
     except Routes.DoesNotExist:
         return render(request, 'error.html', {'error_message': 'Маршрут не найден'})
 
-    return render(request, 'route_detail.html', {'route': route})
+    return render(request, 'route_detail.html', data)
+def prepare_data_for_ready_route(_route):
+    return {
+        'form': "form",
+        'description_h': _route.description,
+        'picture_h': _route.picture,
+        'name_h': _route.name,
+        'dificult_h': _route.level_of_hardness,
+        'water_h': _route.water,
+        'duration_h': _route.duration,
+    }
