@@ -1,6 +1,5 @@
 from django.db import models
 
-
 class Routes(models.Model):
     DIFICULT_CHOICES = (
         ("Лёгкий", "Лёгкий"),
@@ -19,5 +18,9 @@ class Routes(models.Model):
     water = models.CharField(max_length=320)
     first = models.BooleanField(default=False)
 
+class Points(models.Model):
+    name = models.CharField(max_length=320, default='generated-route')
+    description = models.TextField()
+    #coordinates = models.PointField()
     def __str__(self):
         return self.name

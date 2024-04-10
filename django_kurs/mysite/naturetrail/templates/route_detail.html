@@ -21,52 +21,78 @@
 <header class="header_route_detail">
     <div class="overlay_route_detail"></div>
     <div class="container">
-        <div class="description text-center">
-            <h3>
-                <p>
-                    Национальный парк
-                </p>
-                ТАГАНАЙ
-            </h3>
-            <div class="preview2">Моё путешествие</div>
+        <div class="row">
+            <div class="col-md-6 d-flex justify-content-between">
+                <div class="description text-center">
+                    <h3>
+                        <p>
+                            Национальный парк
+                        </p>
+                        ТАГАНАЙ
+                    </h3>
+                    <div class="preview2">Моё путешествие</div>
+                </div>
+            </div>
+            <div class="col-md-6 d-flex justify-content-center align-items-center">
+                {% block content %}
+                <div class="generator text-center" id="generator">
+                    <h1 class="title">Введите параметры похода</h1>
+                    <form method="post" action="/generate/">
+                        {% csrf_token %}
+                        <!--<label for="level_of_hardness">Уровень сложности:</label>-->
+                        <select class="form-select" name="level_of_hardness">
+                            <option selected disabled hidden>Выберите уровень сложности</option>
+                            <option value="Лёгкий">Лёгкий</option>
+                            <option value="Средний">Средний</option>
+                            <option value="Сложный">Сложный</option>
+                            <option value="Выживание">Выживание</option>
+                        </select><br>
+                        <!--<label for="duration">Продолжительность в днях:</label>-->
+                        <select class="form-select" name="duration">
+                            <option selected disabled hidden>Выберите продолжительность</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                        </select><br>
+                        <!--<label for="participants">Количество участников:</label>-->
+                        <input type="number" class="form-control"
+                               name="participants"  min="1" max="30"
+                         placeholder="Введите количество участников">
+                        <br>
+                        <!--<label for="season">Сезон:</label>-->
+                        <select class="form-select" name="season">
+                            <option selected disabled hidden>Выберите сезон</option>
+                            <option value="Весна">Весна</option>
+                            <option value="Лето">Лето</option>
+                            <option value="Осень">Осень</option>
+                            <option value="Зима">Зима</option>
+                        </select><br>
+                        <select class="form-select" id="accommodation"
+                                name="accommodation">
+                            <option disabled hidden selected>Выберите вариант
+                                проживания
+                            </option>
+                            <option value="В палатке">В палатке</option>
+                            <option value="В доме">В доме</option>
+                            <option value="В доме и в палатке">В доме и в
+                                палатке
+                            </option>
+                        </select>
+                        <span>{{ error }}</span>
+                        <button class="btn btn-success btn-lg" type="submit">Сгенерировать маршрут</button>
+                    </form>
+                </div>
+                {% endblock %}
+            </div>
         </div>
     </div>
 </header>
 
-{% block content %}
-<div class="container">
-    <div class="row">
-        <div class="col-md-6 offset-md-6">
-            <div class="generator" id="generator">
-                <h1 class="title text-center">Введите параметры похода</h1>
-                <form method="post">
-                    {% csrf_token %}
-                    <select class="form-select" name="level_of_hardness">
-                        <option value="Легкий">Легкий</option>
-                        <option value="Средний">Средний</option>
-                        <option value="Сложный">Сложный</option>
-                        <option value="Выживание">Выживание</option>
-                    </select><br>
-
-                    <select class="form-select" name="duration">
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                    </select><br>
-                    <span>{{ error }}</span>
-                    <button class="btn btn-success btn-lg" type="submit">Сгенерировать маршрут</button>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
-{% endblock %}
-
 <!-- Posts section -->
 <div class="gener" id="gener">
     <div class="container">
-        <h1 class="text-center">Ваш маршрут</h1>
+        <h1 class="text-center mt-4">Ваш маршрут</h1>
         <div class="row">
             <div class="one">
                 <div class="card">
@@ -93,7 +119,7 @@
 
 <hr>
 <footer class="container">
-    &copy; Все права защищены 2023
+    &copy; Все права защищены 2024
 </footer>
 <script src='/static/js/main.js' type="text/javascript"></script>
 </body>
