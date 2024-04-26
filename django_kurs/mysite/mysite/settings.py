@@ -38,8 +38,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
+    #'django.contrib.gis',
 ]
+
+#GDAL_LIBRARY_PATH = 'C:/Program Files (x86)/Microsoft Visual Studio/2022/BuildTools'
+# LD_LIBRARY_PATH='C:/Program Files (x86)/Microsoft Visual Studio/2022/BuildTools'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

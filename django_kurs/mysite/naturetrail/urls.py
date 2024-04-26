@@ -1,6 +1,6 @@
 from django.urls import path
 from django.views.generic import ListView, DetailView
-from .models import Routes
+from .models import Route
 from . import views, models
 from django.contrib import admin
 urlpatterns = [

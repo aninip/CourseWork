@@ -29,14 +29,25 @@
                         <p>
                             Национальный парк
                         </p>
-                        ТАГАНАЙ
+                        ТАГАНАЙ!!!!!!!
                     </h3>
                     <div class="preview2">Моё путешествие</div>
                 </div>
             </div>
             <div class="col-md-6 d-flex justify-content-center align-items-center">
                 {% block content %}
-                <div class="generator text-center" id="generator">
+
+                {% endblock %}
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Posts section -->
+<div class="gener" id="gener">
+    <div class="parameters-container container">
+        <div id="map" style="width: 600px; height: 400px"></div>
+        <div class="generator text-center" id="generator">
                     <h1 class="title">Введите параметры похода</h1>
                     <form method="post" action="/generate/">
                         {% csrf_token %}
@@ -81,63 +92,27 @@
                             </option>
                         </select>
                         <span>{{ error }}</span>
-                        <button class="btn btn-success btn-lg" type="submit">Сгенерировать маршрут</button>
+                        <button class="btn btn-success btn-lg mt-4" type="submit">Сгенерировать маршрут</button>
                     </form>
                 </div>
-                {% endblock %}
-            </div>
-        </div>
-    </div>
-</header>
 
-<!-- Posts section -->
-<div class="gener" id="gener">
-    <div class="container">
-        <h1 class="text-center mt-4">Ваш маршрут</h1>
-        <div class="row">
-            <div class="one">
-                <div class="card">
-                    <div class="card-img2">
-                        <!---<img src="/images/stone_river.jpg" class="">--->
-                        <img class="" src="/static/{{ picture_h }}">
-                    </div>
-                    <!---<h5>{{ picture_h }}</h5>--->
-                    <div class="card-body">
-                        <h4 class="card-title">{{name_h}}</h4>
-                        <p class="card1-text">Сложность: {{ dificult_h }}</p>
-                        <p class="card1-text">Продолжительность: {{ duration_h }}</p>
-                        <p class="card-text4">{{ description_h }}</p>
-                        <p class="card1-text">Источники воды: {{ water_h }}</p>
-                    </div>
-                    <!---<div class="card-footer">
-                        <a href="" class="card-link">Узнать больше</a>
-                    </div>--->
-                </div>
-            </div>
-        </div>
     </div>
 </div>
-<div id="map" style="width: 600px; height: 400px"></div>
 
 <script>
     ymaps.ready(init);
-
     function init() {
         var myMap = new ymaps.Map("map", {
-            center: [55.76, 37.64],
+            center: [55.263577, 59.778038],
             zoom: 10
         });
 
-        // Добавьте нужные места на карту
-        // Например:
-        var placemarks = [
-            { coords: [55.751574, 37.573856], name: "Место 1" },
-            { coords: [55.753687, 37.621620], name: "Место 2" },
-            // Добавьте другие места
-        ];
+        //console.log({{ all_points|safe }})
+        const points = {{ all_points|safe }};
+        //console.log(points)
 
-        placemarks.forEach(function (placemark) {
-            var placeMark = new ymaps.Placemark(placemark.coords, { hintContent: placemark.name });
+        points.forEach(function (point) {
+            var placeMark = new ymaps.Placemark([point.latitude, point.longitude], { hintContent: point.name });
             myMap.geoObjects.add(placeMark);
         });
     }

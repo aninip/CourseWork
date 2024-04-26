@@ -2,7 +2,7 @@ import random as rand
 from datetime import time, datetime
 from django.shortcuts import render
 from naturetrail.forms import RoutesForm
-from .models import Routes
+from .models import Route, Point
 
 
 def index(request):
@@ -13,14 +13,17 @@ def create(request):
     error = ""
     if request.method == 'POST':
         handle_post_request(request.POST)
-    nash = Routes.objects.last()
+    nash = Route.objects.last()
     form = RoutesForm()
-    data = prepare_data(nash, form, error)
-    return render(request, 'route_detail.html', data)
+    queryset = Point.objects.all()
+    all_points = [{"name": point.name, "longitude": point.longitude, "latitude":point.latitude} for point in queryset]
+    print(all_points)
+    data = prepare_data(nash, form, error, all_points)
+    return render(request, 'route_generator.html', data)
 
 
 def handle_post_request(post_data):
-    Routes.objects.filter(first=False).delete()
+    Route.objects.filter(first=False).delete()
     form = RoutesForm(post_data)
     if form.is_valid():
         save_generated_route(form)
@@ -32,7 +35,7 @@ def save_generated_route(form):
     generated_form = form.save(commit=False)
     level_of_hardness = form.cleaned_data.get("level_of_hardness")
     duration = form.cleaned_data.get("duration")
-    matching_routes = Routes.objects.filter(
+    matching_routes = Route.objects.filter(
         level_of_hardness=level_of_hardness,
         duration=duration)
     if matching_routes.exists():
@@ -58,7 +61,7 @@ def handle_invalid_form(form):
     error = 'Данные некорректны'
 
 
-def prepare_data(nash, form, error):
+def prepare_data(nash, form, error,all_points):
     return {
         'form': form,
         'error': error,
@@ -68,12 +71,13 @@ def prepare_data(nash, form, error):
         'dificult_h': nash.level_of_hardness,
         'water_h': nash.water,
         'duration_h': nash.duration,
+        'all_points': all_points,
     }
 def route_detail(request, route_id):
     try:
-        route = Routes.objects.get(pk=route_id)
+        route = Route.objects.get(pk=route_id)
         data = prepare_data_for_ready_route(route)
-    except Routes.DoesNotExist:
+    except Route.DoesNotExist:
         return render(request, 'error.html', {'error_message': 'Маршрут не найден'})
 
     return render(request, 'route_detail.html', data)

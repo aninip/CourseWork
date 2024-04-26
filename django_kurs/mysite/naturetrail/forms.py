@@ -1,10 +1,10 @@
-from .models import Routes
+from .models import Route
 from django.forms import ModelForm, TextInput
 
 
 class RoutesForm(ModelForm):
     class Meta:
-        model = Routes
+        model = Route
         fields = ['level_of_hardness', 'duration']
 
         widgets = {

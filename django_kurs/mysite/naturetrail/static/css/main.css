@@ -231,3 +231,7 @@ margin: 0px 0px 100px;
 .container_route_detail{
     z-index: 2;
 }
+.parameters-container{
+    display:flex;
+    align-items:center;
+}
