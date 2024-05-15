@@ -17,7 +17,7 @@ def create(request):
     form = RoutesForm()
     queryset = Point.objects.all()
     all_points = [{"name": point.name, "longitude": point.longitude, "latitude":point.latitude} for point in queryset]
-    print(all_points)
+    #print(all_points)
     data = prepare_data(nash, form, error, all_points)
     return render(request, 'route_generator.html', data)
 
