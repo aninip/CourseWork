@@ -13,18 +13,19 @@ class Route(models.Model):
                                          choices=DIFICULT_CHOICES, )
     description = models.TextField()
     price_of_accommodation = models.PositiveSmallIntegerField(default=0)
-    picture = models.ImageField(upload_to='images')
-    equipment = models.FileField(upload_to='equipments')
+    picture = models.ImageField(upload_to='images', null=True)
+    equipment = models.FileField(upload_to='equipments',null=True)
     water = models.CharField(max_length=320)
-    first = models.BooleanField(default=False)
     points = models.ManyToManyField('Point', through='RoutePoint')
 
 
 class Point(models.Model):
-    name = models.CharField(max_length=320, default='generated-route')
+    name = models.CharField(max_length=320, default='generated-point')
     description = models.TextField()
     latitude = models.FloatField()
     longitude = models.FloatField()
+    order = models.PositiveSmallIntegerField()
+    closest_accomodation = models.CharField(max_length=100, default='none')
     def __str__(self):
         return f"Name: {self.name}, Description: {self.description}, Latitude: {self.latitude}, Longitude: {self.longitude}"
 class RoutePoint(models.Model):

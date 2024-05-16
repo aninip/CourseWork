@@ -8,4 +8,5 @@ urlpatterns = [
     path("generate/", views.create, name='create'),
     path('route/<int:route_id>/', views.route_detail, name='route_detail'),
     path('admin/', admin.site.urls),
+    path('routeq/', views.submit_points, name='submit_points'),
 ]
