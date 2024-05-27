@@ -36,54 +36,7 @@
             </div>
             <div class="col-md-6 d-flex justify-content-center align-items-center">
                 {% block content %}
-                <div class="generator text-center" id="generator">
-                    <h1 class="title">Введите параметры похода</h1>
-                    <form method="post" action="/generate/">
-                        {% csrf_token %}
-                        <!--<label for="level_of_hardness">Уровень сложности:</label>-->
-                        <select class="form-select" name="level_of_hardness">
-                            <option selected disabled hidden>Выберите уровень сложности</option>
-                            <option value="Лёгкий">Лёгкий</option>
-                            <option value="Средний">Средний</option>
-                            <option value="Сложный">Сложный</option>
-                            <option value="Выживание">Выживание</option>
-                        </select><br>
-                        <!--<label for="duration">Продолжительность в днях:</label>-->
-                        <select class="form-select" name="duration">
-                            <option selected disabled hidden>Выберите продолжительность</option>
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                        </select><br>
-                        <!--<label for="participants">Количество участников:</label>-->
-                        <input type="number" class="form-control"
-                               name="participants"  min="1" max="30"
-                         placeholder="Введите количество участников">
-                        <br>
-                        <!--<label for="season">Сезон:</label>-->
-                        <select class="form-select" name="season">
-                            <option selected disabled hidden>Выберите сезон</option>
-                            <option value="Весна">Весна</option>
-                            <option value="Лето">Лето</option>
-                            <option value="Осень">Осень</option>
-                            <option value="Зима">Зима</option>
-                        </select><br>
-                        <select class="form-select" id="accommodation"
-                                name="accommodation">
-                            <option disabled hidden selected>Выберите вариант
-                                проживания
-                            </option>
-                            <option value="В палатке">В палатке</option>
-                            <option value="В доме">В доме</option>
-                            <option value="В доме и в палатке">В доме и в
-                                палатке
-                            </option>
-                        </select>
-                        <span>{{ error }}</span>
-                        <button class="btn btn-success btn-lg" type="submit">Сгенерировать маршрут</button>
-                    </form>
-                </div>
+                
                 {% endblock %}
             </div>
         </div>
@@ -98,48 +51,43 @@
             <div class="one">
                 <div class="card">
                     <div class="card-img2">
-                        <!---<img src="/images/stone_river.jpg" class="">--->
                         <img class="" src="/static/{{ picture_h }}">
                     </div>
-                    <!---<h5>{{ picture_h }}</h5>--->
                     <div class="card-body">
                         <h4 class="card-title">{{name_h}}</h4>
                         <p class="card1-text">Сложность: {{ dificult_h }}</p>
                         <p class="card1-text">Продолжительность: {{ duration_h }}</p>
                         <p class="card-text4">{{ description_h }}</p>
                         <p class="card1-text">Источники воды: {{ water_h }}</p>
+                        <div id="map" style="width: 600px; height: 400px"></div>
                     </div>
-                    <!---<div class="card-footer">
-                        <a href="" class="card-link">Узнать больше</a>
-                    </div>--->
                 </div>
             </div>
         </div>
     </div>
 </div>
-<div id="map" style="width: 600px; height: 400px"></div>
+
 
 <script>
     ymaps.ready(init);
 
     function init() {
         var myMap = new ymaps.Map("map", {
-            center: [55.76, 37.64],
+            center: [55.263577, 59.778038],
             zoom: 10
         });
 
-        // Добавьте нужные места на карту
-        // Например:
-        var placemarks = [
-            { coords: [55.751574, 37.573856], name: "Место 1" },
-            { coords: [55.753687, 37.621620], name: "Место 2" },
-            // Добавьте другие места
-        ];
+         var points = JSON.parse('{{ points_data|escapejs }}');
 
-        placemarks.forEach(function (placemark) {
-            var placeMark = new ymaps.Placemark(placemark.coords, { hintContent: placemark.name });
-            myMap.geoObjects.add(placeMark);
-        });
+            // Добавляем точки на карту
+            points.forEach(function (point) {
+                var placemark = new ymaps.Placemark([point.latitude, point.longitude], {
+                    hintContent: point.name
+                });
+                myMap.geoObjects.add(placemark);
+            });
+            // Создаем линию маршрута
+        
     }
 </script>
 <hr>

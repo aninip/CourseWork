@@ -13,7 +13,7 @@ class Route(models.Model):
                                          choices=DIFICULT_CHOICES, )
     description = models.TextField()
     price_of_accommodation = models.PositiveSmallIntegerField(default=0)
-    picture = models.ImageField(upload_to='images', null=True)
+    picture = models.ImageField(upload_to='naturetrail/static/images', null=True)
     equipment = models.FileField(upload_to='equipments',null=True)
     water = models.CharField(max_length=320)
     points = models.ManyToManyField('Point', through='RoutePoint')

@@ -126,17 +126,25 @@ def route_detail(request, route_id):
         data = prepare_data_for_ready_route(route)
     except Route.DoesNotExist:
         return render(request, 'error.html', {'error_message': 'Маршрут не найден'})
-
+    print(data)
     return render(request, 'route_detail.html', data)
+
 def prepare_data_for_ready_route(_route):
+    original_picture_path = _route.picture.name
+    to_remove = "naturetrail/static/"
+    picture_path = original_picture_path.removeprefix(to_remove)
+    points = _route.points.all()
+    points_data = [{'name': point.name, 'latitude': point.latitude, 'longitude': point.longitude} for point in points]
     return {
         'form': "form",
         'description_h': _route.description,
-        'picture_h': _route.picture,
+        'picture_h': picture_path,
         'name_h': _route.name,
         'dificult_h': _route.level_of_hardness,
         'water_h': _route.water,
         'duration_h': _route.duration,
+        'points_data': json.dumps(points_data)
+
     }
 
 def submit_points(request):
