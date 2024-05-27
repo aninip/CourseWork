@@ -2,13 +2,15 @@ import random as rand
 import os
 import requests
 from datetime import time, datetime
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from naturetrail.forms import RoutesForm
-from .models import Route, Point
+from .models import Route, Point, RoutePoint
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 import json
 from dotenv import load_dotenv
+
+
 
 SYSTEM_PROMPT = '''Я хочу, чтобы ты отвечал исключительно в формате json. Ты будешь помогать составлять маршруты для похода по парку Таганай.
 
@@ -180,7 +182,7 @@ def submit_points(request):
                 api_json = json.loads(api_response['choices'][0]['message']['content'])
                 generated_name = api_json['name']
                 generated_description = api_json['description']
-                print(generated_name, generated_description)
+                # print(generated_name, generated_description)
             else:
                 return JsonResponse({'status': 'error', 'message': 'API request failed'}, status=response.status_code)
 
@@ -194,9 +196,46 @@ def submit_points(request):
                 'numberOfParticipants': number_participants,
                 'season': season
             }
-
+            print(mocked_route)
             
-            return JsonResponse({'status': 'success', 'message': 'Points received', 'data': mocked_route})
+             # Создание маршрута в базе данных
+            new_route = Route.objects.create(
+                name=generated_name,
+                duration=duration,
+                level_of_hardness=level_of_hardness,
+                description=generated_description,
+                price_of_accommodation=1000,
+                water='',
+                picture=None,
+                equipment=None
+            )
+
+            # Добавление точек в маршрут
+            for idx, point in enumerate(points):
+                new_point = Point.objects.create(
+                    name=point.get('name', 'Unnamed Point'),
+                    description=point.get('description', ''),
+                    latitude=point.get('latitude', 0),
+                    longitude=point.get('longitude', 0),
+                    order=idx + 1,
+                    closest_accomodation=point.get('closest_accomodation', '')
+                )
+                # Создание связи между маршрутом и точкой с указанием порядка
+                RoutePoint.objects.create(
+                    route=new_route,
+                    point=new_point,
+                    order=idx + 1
+                )
+                new_route.points.add(new_point)
+
+            # Перенаправление на страницу с деталями маршрута
+            print("id машрута",new_route.id)
+            # return redirect('route_detail', route_id=new_route.id)
+            # Перенаправление на страницу с деталями маршрута и отправка идентификатора созданного маршрута
+            return JsonResponse({'status': 'success', 'message': 'Route created', 'route_id': new_route.id})
+
+            # return JsonResponse({'status': 'success', 'message': 'Points received', 'data': mocked_route})
+        
         except json.JSONDecodeError:
             return JsonResponse({'status': 'error', 'message': 'Invalid JSON'}, status=400)
     else:

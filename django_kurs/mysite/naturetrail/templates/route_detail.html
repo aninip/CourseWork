@@ -49,51 +49,87 @@
         <h1 class="text-center mt-4">Ваш маршрут</h1>
         <div class="row">
             <div class="one">
-                <div class="card">
+                <div class="card" id="card">
                     <div class="card-img2">
-                        <img class="" src="/static/{{ picture_h }}">
+                        <!-- <img class="" src="/static/{{ picture_h }}"> -->
                     </div>
-                    <div class="card-body">
+                    <div class="card-body" id="card-body">
                         <h4 class="card-title">{{name_h}}</h4>
                         <p class="card1-text">Сложность: {{ dificult_h }}</p>
                         <p class="card1-text">Продолжительность: {{ duration_h }}</p>
                         <p class="card-text4">{{ description_h }}</p>
-                        <p class="card1-text">Источники воды: {{ water_h }}</p>
+                        <!-- <p class="card1-text">Источники воды: {{ water_h }}</p> -->
                         <div id="map" style="width: 600px; height: 400px"></div>
+                    </div>
+                    <div class="container text-center mt-4">
+                        <button id="save-pdf" class="btn btn-primary">Сохранить в PDF</button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+<script>
+    function init() {
+        // Создаем массив координат точек маршрута
+        var points = JSON.parse('{{ points_data|escapejs }}');
+
+    // Создаем объект для хранения точек маршрута
+    var referencePoints = [];
+
+    // Заполняем массив координат точек маршрута
+    points.forEach(function (point) {
+        referencePoints.push([point.latitude, point.longitude]);
+    });
+
+    // Создаем мультимаршрут
+    var multiRoute = new ymaps.multiRouter.MultiRoute({
+        referencePoints: referencePoints,
+        params: {
+            routingMode: 'pedestrian'
+        }
+    }, {
+        boundsAutoApply: true
+    });
+
+    // Создаем карту
+    var myMap = new ymaps.Map('map', {
+        center: referencePoints[0],
+        zoom: 12
+    });
+
+    // Добавляем мультимаршрут на карту
+    myMap.geoObjects.add(multiRoute);
+    }
+
+    ymaps.ready(init);
+</script>
 
 
 <script>
-    ymaps.ready(init);
+    document.getElementById('save-pdf').addEventListener('click', function () {
+        // Element to capture
+        var element = document.getElementById('card-body');
 
-    function init() {
-        var myMap = new ymaps.Map("map", {
-            center: [55.263577, 59.778038],
-            zoom: 10
-        });
+        // Options for html2pdf
+        var opt = {
+            margin:   1,
+            filename: 'my_route.pdf',
+            image: { type: 'jpeg', quality: 0.98 },
+            html2canvas: { scale: 2 },
+            jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+        };
 
-         var points = JSON.parse('{{ points_data|escapejs }}');
-
-            // Добавляем точки на карту
-            points.forEach(function (point) {
-                var placemark = new ymaps.Placemark([point.latitude, point.longitude], {
-                    hintContent: point.name
-                });
-                myMap.geoObjects.add(placemark);
-            });
-            // Создаем линию маршрута
-        
-    }
+        // Generate PDF
+        html2pdf().set(opt).from(element).save();
+    });
 </script>
 <hr>
 <footer class="container">
     &copy; Все права защищены 2024
 </footer>
 <script src='/static/js/main.js' type="text/javascript"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.min.js"></script>
+
 </body>
 </html>

@@ -94,6 +94,8 @@ document.addEventListener("DOMContentLoaded", (event) => {
           .then((response) => response.json())
           .then((data) => {
             console.log("Success:", data);
+            // console.log("Redirecting to /route/", data.route_id);
+            window.location.href = `\http://127.0.0.1:8000/route/${data.route_id}/`;
           });
       });
   }
