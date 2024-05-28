@@ -52,6 +52,7 @@
                     <h1 class="title">Введите параметры похода</h1>
                     <form>
                         {% csrf_token %}
+                        <label for="level_of_hardness">Уровень сложности:</label>
                         <select class="form-select" name="level_of_hardness" id="level_of_hardness">
                             <option selected disabled hidden>Выберите уровень сложности</option>
                             <option value="Лёгкий">Лёгкий</option>
@@ -59,7 +60,7 @@
                             <option value="Сложный">Сложный</option>
                             <option value="Выживание">Выживание</option>
                         </select><br>
-                        <!--<label for="duration">Продолжительность в днях:</label>-->
+                        <label for="duration">Продолжительность в днях:</label>
                         <select class="form-select" name="duration" id="duration">
                             <option selected disabled hidden>Выберите продолжительность</option>
                             <option value="1">1</option>
@@ -67,13 +68,13 @@
                             <option value="3">3</option>
                             <option value="4">4</option>
                         </select><br>
-                        <!--<label for="participants">Количество участников:</label>-->
+                        <label for="participants">Количество участников:</label>
                         <input type="number" class="form-control"
                                name="participants"  min="1" max="30"
                                id="number_participants"
                          placeholder="Введите количество участников">
                         <br>
-                        <!--<label for="season">Сезон:</label>-->
+                        <label for="season">Сезон:</label>
                         <select class="form-select" name="season" id="season">
                             <option selected disabled hidden>Выберите сезон</option>
                             <option value="Весна">Весна</option>
@@ -81,6 +82,7 @@
                             <option value="Осень">Осень</option>
                             <option value="Зима">Зима</option>
                         </select><br>
+                        <label for="accommodation">Проживание:</label>
                         <select class="form-select" id="accommodation"
                                 name="accommodation">
                             <option disabled hidden selected>Выберите вариант
