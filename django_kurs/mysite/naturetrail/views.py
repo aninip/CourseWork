@@ -58,57 +58,10 @@ SYSTEM_PROMPT = '''Я хочу, чтобы ты отвечал исключит�
 def index(request):
     return render(request, 'homePage.html')
 
-
 def create(request):
-    error = ""
-    if request.method == 'POST':
-        handle_post_request(request.POST)
-    nash = Route.objects.last()
-    form = RoutesForm()
     queryset = Point.objects.all()
     all_points = [{"name": point.name, "longitude": point.longitude, "latitude":point.latitude, "description":point.description, "order":point.order, "closest_accomodation": point.closest_accomodation} for point in queryset]
-    print(all_points)
     return render(request, 'route_generator.html', {'all_points': all_points})
-
-
-def handle_post_request(post_data):
-    Route.objects.filter(first=False).delete()
-    form = RoutesForm(post_data)
-    if form.is_valid():
-        save_generated_route(form)
-    else:
-        handle_invalid_form(form)
-
-
-def save_generated_route(form):
-    generated_form = form.save(commit=False)
-    level_of_hardness = form.cleaned_data.get("level_of_hardness")
-    duration = form.cleaned_data.get("duration")
-    matching_routes = Route.objects.filter(
-        level_of_hardness=level_of_hardness,
-        duration=duration)
-    if matching_routes.exists():
-        generated_route = rand.choice(matching_routes)
-        copy_data_to_generated_form(generated_route, generated_form)
-        generated_form.save()
-    else:
-        # Не найдено соответствующих маршрутов
-        pass
-
-
-def copy_data_to_generated_form(route, generated_form):
-    generated_form.name = route.name
-    generated_form.description = route.description
-    generated_form.water = route.water
-    generated_form.picture = route.picture
-    generated_form.equipment = route.equipment
-
-
-def handle_invalid_form(form):
-    # Обработка некорректной формы
-    print(form.errors.as_data())
-    error = 'Данные некорректны'
-
 
 def prepare_data(nash, form, error,all_points):
     return {
@@ -122,6 +75,7 @@ def prepare_data(nash, form, error,all_points):
         'duration_h': nash.duration,
         'all_points': all_points,
     }
+
 def route_detail(request, route_id):
     try:
         route = Route.objects.get(pk=route_id)
