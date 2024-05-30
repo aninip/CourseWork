@@ -87,14 +87,13 @@ document.addEventListener("DOMContentLoaded", (event) => {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            "X-CSRFToken": getCookie("csrftoken"), // Добавьте эту строку для защиты CSRF
+            "X-CSRFToken": getCookie("csrftoken"),
           },
           body: JSON.stringify(bodyData),
         })
           .then((response) => response.json())
           .then((data) => {
             console.log("Success:", data);
-            // console.log("Redirecting to /route/", data.route_id);
             window.location.href = `\http://127.0.0.1:8000/route/${data.route_id}/`;
           });
       });

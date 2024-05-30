@@ -182,14 +182,10 @@ def submit_points(request):
                 )
                 new_route.points.add(new_point)
 
-            # Перенаправление на страницу с деталями маршрута
             print("id машрута",new_route.id)
-            # return redirect('route_detail', route_id=new_route.id)
-            # Перенаправление на страницу с деталями маршрута и отправка идентификатора созданного маршрута
             return JsonResponse({'status': 'success', 'message': 'Route created', 'route_id': new_route.id})
-
             # return JsonResponse({'status': 'success', 'message': 'Points received', 'data': mocked_route})
-        
+    
         except json.JSONDecodeError:
             return JsonResponse({'status': 'error', 'message': 'Invalid JSON'}, status=400)
     else:
