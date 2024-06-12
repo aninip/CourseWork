@@ -124,8 +124,8 @@ def prepare_data_for_ready_route(_route):
         'equipment_content': equipment_file
     }
 
-
-def get_default_points(level_of_hardness, duration):
+# Функция для поиска точки по имени
+def find_point_by_name(name):
     queryset = Point.objects.all()
     unique_points = set()
     all_points = []
@@ -145,13 +145,20 @@ def get_default_points(level_of_hardness, duration):
                 "order": point.order,
                 "closest_accomodation": point.closest_accomodation,
             })
-# Функция для поиска точки по имени
-    def find_point_by_name(name):
-        for point in all_points:
-            if point['name'] == name:
-                return point
-        return None
+    for point in all_points:
+        if point['name'] == name:
+            return point
+    return None
+
+def sort_points_by_order(points):
+    # Используем метод сортировки списка по ключу 'order'
+    sorted_points = sorted(points, key=lambda x: x['order'])
+    return sorted_points
     
+
+def get_default_points(level_of_hardness, duration):
+    
+
     if level_of_hardness == "Лёгкий":
             return [
                 find_point_by_name("Центральная Усадьба"),
@@ -203,6 +210,12 @@ def submit_points(request):
             if not points:
                 points = get_default_points(level_of_hardness, duration)
                 print("точки по дефолту",points)
+
+            if not any(point['name'] == 'Центральная Усадьба' for point in points):
+                points.insert(0, find_point_by_name("Центральная Усадьба"))
+                print("Добавлена точка Центральная Усадьба:")
+
+            points = sort_points_by_order(points)
 
             url = 'https://api.proxyapi.ru/openai/v1/chat/completions'
             headers = {

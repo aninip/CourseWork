@@ -82,7 +82,13 @@
 <!-- Posts section -->
 <div class="gener" id="gener">
     <div class="parameters-container container">
-        <div id="map" style="width: 600px; height: 400px"></div>
+        <div class="map-text">
+            <div id="map" style="width: 600px; height: 400px"></div>
+            <div class="text-center">
+                <p class="select-points-text">Выберите кликом желаемые точки</p>
+            </div>
+        </div>
+        
         <div class="generator text-center" id="generator">
                     <h1 class="title">Введите параметры похода</h1>
                     <form>
@@ -127,12 +133,10 @@
                         </select>
                         <span>{{ error }}</span>
                         <button id="create-route-btn" class="btn btn-success btn-lg mt-4" type="submit">Сгенерировать маршрут</button>
-                        
                     </form>
                 </div>
                     
     </div>
-
     <div id="spinner-overlay" class="spinner-overlay">
         <div class="spinner" id="spinner"></div>
     </div>
