@@ -190,16 +190,53 @@ def submit_points(request):
                 equipment=None
             )
 
-            # Добавление точек в маршрут
+            # # Добавление точек в маршрут
+            # for idx, point in enumerate(points):
+            #     new_point = Point.objects.create(
+            #         name=point.get('name', 'Unnamed Point'),
+            #         description=point.get('description', ''),
+            #         latitude=point.get('latitude', 0),
+            #         longitude=point.get('longitude', 0),
+            #         order=idx + 1,
+            #         closest_accomodation=point.get('closest_accomodation', '')
+            #     )
+            #     # Создание связи между маршрутом и точкой с указанием порядка
+            #     RoutePoint.objects.create(
+            #         route=new_route,
+            #         point=new_point,
+            #         order=idx + 1
+            #     )
+            #     new_route.points.add(new_point)
+            
+
             for idx, point in enumerate(points):
-                new_point = Point.objects.create(
-                    name=point.get('name', 'Unnamed Point'),
-                    description=point.get('description', ''),
-                    latitude=point.get('latitude', 0),
-                    longitude=point.get('longitude', 0),
-                    order=idx + 1,
-                    closest_accomodation=point.get('closest_accomodation', '')
-                )
+                point_name = point.get('name', 'Unnamed Point')
+                point_description = point.get('description', '')
+                point_latitude = point.get('latitude', 0)
+                point_longitude = point.get('longitude', 0)
+                point_order = idx + 1
+                point_closest_accommodation = point.get('closest_accommodation', '')
+
+                # Проверяем, существует ли точка с такими же координатами в базе данных
+                existing_point = Point.objects.filter(
+                    name=point_name,
+                    latitude=point_latitude,
+                    longitude=point_longitude
+                ).first()
+
+                if existing_point:
+                    new_point = existing_point
+                    print("найдена точка с названием " + existing_point.name)
+                else:
+                    new_point = Point.objects.create(
+                        name=point_name,
+                        description=point_description,
+                        latitude=point_latitude,
+                        longitude=point_longitude,
+                        order=point_order,
+                        closest_accommodation=point_closest_accommodation
+                    )
+
                 # Создание связи между маршрутом и точкой с указанием порядка
                 RoutePoint.objects.create(
                     route=new_route,
@@ -207,6 +244,7 @@ def submit_points(request):
                     order=idx + 1
                 )
                 new_route.points.add(new_point)
+
 
             print("id машрута",new_route.id)
             return JsonResponse({'status': 'success', 'message': 'Route created', 'route_id': new_route.id})
