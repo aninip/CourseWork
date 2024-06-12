@@ -61,9 +61,31 @@ document.addEventListener("DOMContentLoaded", (event) => {
 
         const level = document.getElementById("level_of_hardness").value;
         const duration = document.getElementById("duration").value;
-        const number_participants = document.getElementById(
+        const numberParticipantsInput = document.getElementById(
           "number_participants"
-        ).value;
+        );
+        let number_participants = parseInt(numberParticipantsInput.value, 10); // Преобразуем значение в число
+
+        const minValue = parseInt(numberParticipantsInput.min, 10); // Минимальное значение из атрибута min
+        const maxValue = parseInt(numberParticipantsInput.max, 10); // Максимальное значение из атрибута max
+
+        // Проверяем, чтобы значение было числом и находилось в диапазоне
+        if (!isNaN(number_participants)) {
+          if (number_participants < minValue) {
+            // Если значение меньше минимального, устанавливаем его в минимальное
+            number_participants = minValue;
+          } else if (number_participants > maxValue) {
+            // Если значение больше максимального, устанавливаем его в максимальное
+            number_participants = maxValue;
+          }
+        } else {
+          number_participants = minValue;
+          // Если введенное значение не является числом, или вообще не введено, можно сделать обработку ошибки
+          console.log("Введите корректное число участников");
+        }
+
+        // Обновляем значение на форме, чтобы отразить возможные изменения
+        numberParticipantsInput.value = number_participants.toString();
         const season = document.getElementById("season").value;
         const accommodation = document.getElementById("accommodation").value;
 

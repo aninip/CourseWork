@@ -143,7 +143,56 @@
 
 </div>
 
+<script>
+    // Получаем ссылки на все необходимые поля ввода
+        const levelOfHardnessInput = document.getElementById("level_of_hardness");
+        const durationInput = document.getElementById("duration");
+        const numberParticipantsInput = document.getElementById("number_participants");
+        const seasonInput = document.getElementById("season");
+        const accommodationInput = document.getElementById("accommodation");
+        const generateRouteButton = document.getElementById("create-route-btn");
 
+        // Функция для проверки, все ли поля заполнены
+        function checkInputsFilled() {
+            const levelOfHardness = levelOfHardnessInput.value;
+            const duration = durationInput.value;
+            const numberParticipants = numberParticipantsInput.value;
+            const season = seasonInput.value;
+            const accommodation = accommodationInput.value;
+            // console.log("numberParticipants now", numberParticipants);
+            // Проверяем, чтобы значения полей не были дефолтными
+            if (
+                levelOfHardness !== "Выберите уровень сложности" &&
+                duration !== "Выберите продолжительность" &&
+                numberParticipants !== "" &&
+                season !== "Выберите сезон" &&
+                accommodation !== "Выберите вариант проживания"
+            ) {
+                return true; // Все поля заполнены
+            } else {
+                return false; // Не все поля заполнены
+            }
+        }
+
+        // Функция для установки состояния кнопки "Сгенерировать маршрут"
+        function setGenerateRouteButtonState() {
+            if (checkInputsFilled()) {
+                generateRouteButton.disabled = false; // Кнопка становится активной
+            } else {
+                generateRouteButton.disabled = true; // Кнопка остается неактивной
+            }
+        }
+
+        // Добавляем обработчики событий на изменение значений в полях ввода
+        levelOfHardnessInput.addEventListener("input", setGenerateRouteButtonState);
+        durationInput.addEventListener("input", setGenerateRouteButtonState);
+        numberParticipantsInput.addEventListener("input", setGenerateRouteButtonState);
+        seasonInput.addEventListener("input", setGenerateRouteButtonState);
+        accommodationInput.addEventListener("input", setGenerateRouteButtonState);
+
+        // При загрузке страницы также проверяем состояние кнопки
+        setGenerateRouteButtonState();
+</script>
 
 <hr>
 <footer class="container">

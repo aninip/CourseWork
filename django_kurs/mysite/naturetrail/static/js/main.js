@@ -1,29 +1,34 @@
-$(document).ready(function(){
- $('.header').height($(window).height());
-})
+$(document).ready(function () {
+  $(".header").height($(window).height());
+});
 $(".navbar a").on("click", function () {
-    let href = $(this).attr("href");
+  let href = $(this).attr("href");
 
-    $("html, body").animate({
-        scrollTop: $(href).offset().top
-    }, {
-        duration: 370,   // по умолчанию «400»
-        easing: "linear" // по умолчанию «swing»
-    });
+  $("html, body").animate(
+    {
+      scrollTop: $(href).offset().top,
+    },
+    {
+      duration: 370, // по умолчанию «400»
+      easing: "linear", // по умолчанию «swing»
+    }
+  );
 
-    return false;
+  return false;
 });
 
 $(".header button").on("click", function () {
-    let href = $(this).attr("href");
+  let href = $(this).attr("href");
 
-    $("html, body").animate({
-        scrollTop: $(href).offset().top
-    }, {
-        duration: 370,   // по умолчанию «400»
-        easing: "linear" // по умолчанию «swing»
-    });
+  $("html, body").animate(
+    {
+      scrollTop: $(href).offset().top,
+    },
+    {
+      duration: 370, // по умолчанию «400»
+      easing: "linear", // по умолчанию «swing»
+    }
+  );
 
-    return false;
+  return false;
 });
-
