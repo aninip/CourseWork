@@ -64,6 +64,7 @@
                     <div id="map" style="width: 600px; height: 400px"></div>
                     <div class="container text-center mt-4">
                         <button id="save-pdf" class="btn btn-primary">Сохранить в PDF</button>
+                        <button id="download-equipment" data-equipment-file="{{ equipment_content }}" class="btn btn-primary">Скачать список снаряжения</button>
                     </div>
                 </div>
             </div>
@@ -156,6 +157,25 @@
         });
     });
 
+    document.getElementById('download-equipment').addEventListener('click', function () {
+        var equipmentFileName = '{{ equipment_content }}';  // имя файла получаем из Django
+        var relativePath = equipmentFileName.replace('naturetrail/static/', '');
+        var equipmentPdfUrl = '/static/' + relativePath;
+
+        // Создаем ссылку для скачивания
+        var link = document.createElement('a');
+        link.href = equipmentPdfUrl;
+        link.target = '_blank';  // Открыть в новой вкладке
+        link.download = equipmentFileName;  // Имя файла для загрузки
+        console.log(equipmentPdfUrl);
+        // Добавляем ссылку в DOM и автоматически кликаем по ней
+        document.body.appendChild(link);
+        link.click();
+
+        // Удаляем ссылку из DOM
+        document.body.removeChild(link);
+
+        });
 
 
 </script>
