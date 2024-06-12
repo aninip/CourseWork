@@ -54,6 +54,11 @@ document.addEventListener("DOMContentLoaded", (event) => {
       .getElementById("create-route-btn")
       .addEventListener("click", function (e) {
         e.preventDefault();
+
+        // Делаем элементы неактивными и показываем спиннер
+        $("button, input, select").prop("disabled", true);
+        $("#spinner-overlay").css("display", "flex");
+
         const level = document.getElementById("level_of_hardness").value;
         const duration = document.getElementById("duration").value;
         const number_participants = document.getElementById(
@@ -93,8 +98,18 @@ document.addEventListener("DOMContentLoaded", (event) => {
         })
           .then((response) => response.json())
           .then((data) => {
-            console.log("Success:", data);
-            window.location.href = `\http://127.0.0.1:8000/route/${data.route_id}/`;
+            console.log("Response data:", data);
+
+            if (data.route_id) {
+              window.location.href = `\http://127.0.0.1:8000/route/${data.route_id}/`;
+            } else {
+              console.error("route_id is missing in the response");
+            }
+          })
+          .catch((error) => {
+            console.error("Error:", error);
+            $("button, input, select").prop("disabled", false);
+            $("#spinner-overlay").css("display", "none");
           });
       });
   }

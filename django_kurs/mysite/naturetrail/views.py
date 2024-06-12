@@ -1,7 +1,7 @@
 import random as rand
-import os
+# import os
 import requests
-from datetime import time, datetime
+# from datetime import time, datetime
 from django.shortcuts import render,redirect
 from naturetrail.forms import RoutesForm
 from .models import Route, Point, RoutePoint
@@ -60,7 +60,25 @@ def index(request):
 
 def create(request):
     queryset = Point.objects.all()
-    all_points = [{"name": point.name, "longitude": point.longitude, "latitude":point.latitude, "description":point.description, "order":point.order, "closest_accomodation": point.closest_accomodation} for point in queryset]
+    unique_points = set()
+    all_points = []
+
+    for point in queryset:
+        # Создаем уникальный ключ для каждой точки
+        unique_key = (point.name, point.longitude, point.latitude)
+        
+        # Если уникальный ключ не встречался ранее, добавляем точку в список
+        if unique_key not in unique_points:
+            unique_points.add(unique_key)
+            all_points.append({
+                "name": point.name,
+                "longitude": point.longitude,
+                "latitude": point.latitude,
+                "description": point.description,
+                "order": point.order,
+                "closest_accomodation": point.closest_accomodation,
+            })
+
     return render(request, 'route_generator.html', {'all_points': all_points})
 
 def prepare_data(nash, form, error,all_points):
@@ -103,6 +121,11 @@ def prepare_data_for_ready_route(_route):
 
     }
 
+def get_default_points(level_of_hardness, duration):
+    # Ваш код для генерации заранее определенных точек в зависимости от сложности и продолжительности
+    # Верните список точек
+    return default_points
+
 def submit_points(request):
     if request.method == 'POST':
         try:
@@ -113,6 +136,9 @@ def submit_points(request):
             number_participants = data.get('number_participants', [])
             season = data.get('season', [])
             accommodation = data.get('accommodation', [])
+            
+            if not points:
+                points = get_default_points(level_of_hardness, duration)
 
             url = 'https://api.proxyapi.ru/openai/v1/chat/completions'
             headers = {
@@ -184,7 +210,6 @@ def submit_points(request):
 
             print("id машрута",new_route.id)
             return JsonResponse({'status': 'success', 'message': 'Route created', 'route_id': new_route.id})
-            # return JsonResponse({'status': 'success', 'message': 'Points received', 'data': mocked_route})
     
         except json.JSONDecodeError:
             return JsonResponse({'status': 'error', 'message': 'Invalid JSON'}, status=400)
