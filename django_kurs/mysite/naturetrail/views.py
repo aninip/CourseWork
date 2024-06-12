@@ -1,5 +1,5 @@
 import random as rand
-# import os
+import os
 import requests
 # from datetime import time, datetime
 from django.shortcuts import render,redirect
@@ -9,6 +9,8 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 import json
 from dotenv import load_dotenv
+from django.conf import settings
+from django.core.files.base import ContentFile
 
 
 
@@ -108,6 +110,7 @@ def prepare_data_for_ready_route(_route):
     to_remove = "naturetrail/static/"
     picture_path = original_picture_path.removeprefix(to_remove)
     points = _route.points.all()
+    equipment_file = _route.equipment
     points_data = [{'name': point.name, 'latitude': point.latitude, 'longitude': point.longitude} for point in points]
     return {
         'form': "form",
@@ -117,14 +120,72 @@ def prepare_data_for_ready_route(_route):
         'dificult_h': _route.level_of_hardness,
         'water_h': _route.water,
         'duration_h': _route.duration,
-        'points_data': json.dumps(points_data)
-
+        'points_data': json.dumps(points_data),
+        'equipment_content': equipment_file
     }
 
+
 def get_default_points(level_of_hardness, duration):
-    # Ваш код для генерации заранее определенных точек в зависимости от сложности и продолжительности
-    # Верните список точек
-    return default_points
+    queryset = Point.objects.all()
+    unique_points = set()
+    all_points = []
+
+    for point in queryset:
+        # Создаем уникальный ключ для каждой точки
+        unique_key = (point.name, point.longitude, point.latitude)
+        
+        # Если уникальный ключ не встречался ранее, добавляем точку в список
+        if unique_key not in unique_points:
+            unique_points.add(unique_key)
+            all_points.append({
+                "name": point.name,
+                "longitude": point.longitude,
+                "latitude": point.latitude,
+                "description": point.description,
+                "order": point.order,
+                "closest_accomodation": point.closest_accomodation,
+            })
+# Функция для поиска точки по имени
+    def find_point_by_name(name):
+        for point in all_points:
+            if point['name'] == name:
+                return point
+        return None
+    
+    if level_of_hardness == "Лёгкий":
+            return [
+                find_point_by_name("Центральная Усадьба"),
+                find_point_by_name("Двуглавая сопка Перья")
+            ]
+    elif level_of_hardness == "Средний":
+            return [
+                find_point_by_name("Центральная Усадьба"),
+                find_point_by_name("Двуглавая сопка Перья"),
+                find_point_by_name("Приют Гремучий ключ"),
+                find_point_by_name("Митькины скалы")
+            ]
+    elif level_of_hardness == "Сложный":
+            return [
+                find_point_by_name("Центральная Усадьба"),
+                find_point_by_name("Двуглавая сопка Перья"),
+                find_point_by_name("Приют Гремучий ключ"),
+                find_point_by_name("Митькины скалы"),
+                find_point_by_name("Круглица"),
+                find_point_by_name("Приют Таганай"),
+            ]
+    elif level_of_hardness == "Выживание":
+            return [
+                find_point_by_name("Центральная Усадьба"),
+                find_point_by_name("Чёрная скала"),
+                find_point_by_name("Двуглавая сопка Перья"),
+                find_point_by_name("Приют Гремучий ключ"),
+                find_point_by_name("Митькины скалы"),
+                find_point_by_name("Круглица"),
+                find_point_by_name("Приют Таганай"),
+                find_point_by_name("Дальний Таганай"),
+            ]
+ 
+    return []
 
 def submit_points(request):
     if request.method == 'POST':
@@ -137,8 +198,11 @@ def submit_points(request):
             season = data.get('season', [])
             accommodation = data.get('accommodation', [])
             
+            print(data)
+
             if not points:
                 points = get_default_points(level_of_hardness, duration)
+                print("точки по дефолту",points)
 
             url = 'https://api.proxyapi.ru/openai/v1/chat/completions'
             headers = {
@@ -178,6 +242,17 @@ def submit_points(request):
             }
             print(mocked_route)
             
+            equipment_file = None
+            if duration == '1':
+                equipment_file = '1day_list.pdf'
+            else:
+                equipment_file = 'bazovyj-chek-list-dlya-peshego-pohoda.pdf'
+
+            # Чтение содержимого файла снаряжения
+            equipment_path = os.path.join(settings.BASE_DIR, r'D:\CourseWork\django_kurs\mysite\equipments', equipment_file)
+            with open(equipment_path, 'rb') as file:
+                equipment_content = file.read()
+
              # Создание маршрута в базе данных
             new_route = Route.objects.create(
                 name=generated_name,
@@ -187,8 +262,9 @@ def submit_points(request):
                 price_of_accommodation=1000,
                 water='',
                 picture=None,
-                equipment=None
+                # equipment=None
             )
+            new_route.equipment.save(equipment_file, ContentFile(equipment_content), save=True)
 
             # # Добавление точек в маршрут
             # for idx, point in enumerate(points):
@@ -226,8 +302,9 @@ def submit_points(request):
 
                 if existing_point:
                     new_point = existing_point
-                    print("найдена точка с названием " + existing_point.name)
+                    # print("найдена точка с названием " + existing_point.name)
                 else:
+                    print("создана новая точка!!!!!!!!!!99999999")
                     new_point = Point.objects.create(
                         name=point_name,
                         description=point_description,

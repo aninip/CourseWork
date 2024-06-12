@@ -59,8 +59,9 @@
                         <p class="card1-text">Продолжительность: {{ duration_h }}</p>
                         <p class="card-text4">{{ description_h }}</p>
                         <!-- <p class="card1-text">Источники воды: {{ water_h }}</p> -->
-                        <div id="map" style="width: 600px; height: 400px"></div>
+                        
                     </div>
+                    <div id="map" style="width: 600px; height: 400px"></div>
                     <div class="container text-center mt-4">
                         <button id="save-pdf" class="btn btn-primary">Сохранить в PDF</button>
                     </div>
@@ -70,6 +71,8 @@
     </div>
 </div>
 <script>
+     var myMap; // Глобальная переменная для объекта карты
+
     function init() {
         // Создаем массив координат точек маршрута
         var points = JSON.parse('{{ points_data|escapejs }}');
@@ -93,7 +96,7 @@
     });
 
     // Создаем карту
-    var myMap = new ymaps.Map('map', {
+    myMap = new ymaps.Map('map', {
         center: referencePoints[0],
         zoom: 12
     });
@@ -105,32 +108,105 @@
     ymaps.ready(init);
 </script>
 
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src='/static/js/main.js' type="text/javascript"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.min.js"></script>
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"
+    integrity="sha512-BNaRQnYJYiPSqHHDb58B0yaPfCu+Wgds8Gp/gU33kqBtgNS4tSPHuGibyoeqMV/TJlSKda6FXzoEyYGjTe+vXA=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script> -->
 
 <script>
     document.getElementById('save-pdf').addEventListener('click', function () {
         // Element to capture
         var element = document.getElementById('card-body');
 
+        // Get the hike name from the card title
+        var hikeName = document.querySelector('.card-title').innerText.trim();
+
+        var tempElement = document.createElement('div');
+
+        // Append existing content from card-body
+        var cardBodyContent = element.innerHTML;
+        tempElement.innerHTML = cardBodyContent;
+
+        var contactInfo = `
+        Сообщить о возгораниях, чрезвычайных ситуациях, местах несанкционированного размещения отходов и иных нарушениях можно по телефонам:<br>
+        +7-902-614-37-44 <br>
+        +7-912-477-74-73<br> <!-- Добавление переноса строки -->
+         <!-- Дополнительный перенос строки -->
+        01 или 101 - Единый телефон пожарных и спасателей
+    `;
+
+        // Add contact information to the element content
+        tempElement.innerHTML += contactInfo;
+        
         // Options for html2pdf
         var opt = {
-            margin:   1,
-            filename: 'my_route.pdf',
+            margin: 1,
+            filename: hikeName + '.pdf',
             image: { type: 'jpeg', quality: 0.98 },
             html2canvas: { scale: 2 },
             jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
         };
 
         // Generate PDF
-        html2pdf().set(opt).from(element).save();
+        html2pdf().set(opt).from(tempElement).save().then(function () {
+            console.log('PDF сохранен успешно');
+            tempElement.remove();
+        });
     });
+
+
+
 </script>
+
+
+
+<!-- <script>
+    document.getElementById('save-pdf').addEventListener('click', function () {
+        // Element to capture
+        var element = document.getElementById('card-body');
+        var hikeName = document.querySelector('.card-title').innerText.trim();
+
+        html2canvas(document.getElementById('map')).then(function (canvas) {
+            // Convert the canvas to an image
+            var imgData = canvas.toDataURL('image/png');
+
+            // Create an image element
+            var imgElement = new Image();
+            imgElement.src = imgData;
+
+            // Replace the map with the screenshot
+            var mapContainer = document.getElementById('map');
+            mapContainer.innerHTML = '';
+            mapContainer.appendChild(imgElement);
+
+
+        // Options for html2pdf
+        var opt = {
+            margin:   1,
+            filename: hikeName + '.pdf',
+            image: { type: 'jpeg', quality: 0.98 },
+            html2canvas: { scale: 2 },
+            jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+        };
+
+        // Generate PDF
+        html2pdf().set(opt).from(element).save().then(function () {
+                // Restore the original map
+                mapContainer.innerHTML = '';
+                ymaps.ready(init);
+            });
+    });
+</script> -->
 <hr>
 <footer class="container">
     &copy; Все права защищены 2024
 </footer>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src='/static/js/main.js' type="text/javascript"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.5.0/html2canvas.min.js"></script> -->
 
 </body>
 </html>
